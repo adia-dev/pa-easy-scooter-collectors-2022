@@ -29,12 +29,10 @@ const Map = () => {
 
                 <MapViewDirections
                     origin={origin.description}
-                    destination={origin.description}
+                    destination={destination.description}
                     strokeWidth={3}
                     strokeColor="black"
-                    onError={(errorMessage) => {
-                        console.log(errorMessage);
-                    }}
+                    mode="DRIVING"
                     apikey={REACT_APP_GOOGLE_MAPS_API_KEY}
                 />
             )
