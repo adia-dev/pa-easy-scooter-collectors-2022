@@ -2,10 +2,14 @@ import { REACT_APP_GOOGLE_MAPS_API_KEY } from "@env";
 import React from 'react';
 import { Image, SafeAreaView, StyleSheet, View } from 'react-native';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
+import { useDispatch } from "react-redux";
 import tw from 'tailwind-react-native-classnames';
 import NavOptions from '../components/NavOptions';
+import { setDestination, setOrigin } from "../slices/navSlice";
 
 const HomeScreen = () => {
+
+    const dispatch = useDispatch();
 
     const googlePlacesAutocompleteStyle = {
         container:
@@ -33,6 +37,17 @@ const HomeScreen = () => {
                 <GooglePlacesAutocomplete
                     placeholder='Where are you ?'
                     styles={googlePlacesAutocompleteStyle}
+                    enablePoweredByContainer={false}
+                    minLength={2}
+                    onPress={(data, details = null) => {
+                        dispatch(setOrigin({
+                            location: details.geometry.location,
+                            description: data.description
+                        }))
+
+                        dispatch(setDestination(null))
+                    }}
+                    fetchDetails={true}
                     query={{
                         key: REACT_APP_GOOGLE_MAPS_API_KEY,
                         language: 'fr'
