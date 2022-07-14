@@ -4,7 +4,7 @@ import { Image, Text, TouchableOpacity, View } from 'react-native'
 import { Icon } from 'react-native-elements'
 import { useDispatch, useSelector } from 'react-redux'
 import tw from 'tailwind-react-native-classnames'
-import { selectOrigin, selectPickupPoints, selectScooters, setShowPickupPoints } from '../slices/navSlice'
+import { selectOrigin, selectPickupPoints, selectScooters, setDestination, setOrigin, setShowPickupPoints } from '../slices/navSlice'
 
 
 const data = [
@@ -39,6 +39,8 @@ const NavOptions = () => {
                 disabled={!pickupPoints}
                 onPress={() => {
                     navigation.navigate(data[0].screen)
+                    dispatch(setDestination(null))
+                    dispatch(setOrigin(origin))
                     dispatch(setShowPickupPoints(true))
 
                 }}
@@ -56,7 +58,9 @@ const NavOptions = () => {
             <TouchableOpacity
                 disabled={!scooters}
                 onPress={() => {
-                    navigation.navigate(data[1].screen)
+                    navigation.navigate(data[0].screen)
+                    dispatch(setDestination(null))
+                    dispatch(setOrigin(origin))
                     dispatch(setShowPickupPoints(false))
 
                 }}
