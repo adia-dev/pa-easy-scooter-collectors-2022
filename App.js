@@ -9,10 +9,14 @@ import { store } from './store';
 import { Platform } from "react-native";
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { useState } from "react";
+import LoginScreen from "./screens/LoginScreen";
 import MapScreen from "./screens/MapScreen";
 
 export default function App() {
   const Stack = createNativeStackNavigator();
+
+  const [loggedIn, setLoggedIn] = useState(false)
 
 
   return (
@@ -23,7 +27,14 @@ export default function App() {
             behavior={Platform.OS === "ios" ? "padding" : "height"}
             keyboardVerticalOffset={Platform.OS === "ios" ? -64 : 0}
             style={{ flex: 1 }}>
-            <Stack.Navigator>
+            <Stack.Navigator initialRouteName={loggedIn ? "HomeScreen" : "LoginScreen"}>
+              <Stack.Screen
+                name='LoginScreen'
+                component={LoginScreen}
+                options={{
+                  headerShown: false
+                }}
+              />
               <Stack.Screen
                 name='HomeScreen'
                 component={HomeScreen}
