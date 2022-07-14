@@ -1,7 +1,7 @@
 import { REACT_APP_GOOGLE_MAPS_API_KEY } from "@env";
 import axios from "axios";
 import React, { useEffect } from 'react';
-import { Image, SafeAreaView, StyleSheet, View } from 'react-native';
+import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import { useDispatch } from "react-redux";
 import tw from 'tailwind-react-native-classnames';
@@ -36,7 +36,7 @@ const HomeScreen = () => {
         await axios.get(TEMP_BASE_URL + "pickups");
 
     const getScooters = async () =>
-        await axios.get(TEMP_BASE_URL + "scooters");
+        await axios.get(TEMP_BASE_URL + "scooters/collect");
 
 
 
@@ -53,7 +53,7 @@ const HomeScreen = () => {
     return (
         <SafeAreaView style={tw`bg-white`}>
             <View style={tw`p-5`}>
-                <Image
+                {/* <Image
                     style={{
                         width: 100,
                         height: 100,
@@ -61,7 +61,8 @@ const HomeScreen = () => {
                     }}
                     source={{
                         uri: "https://links.papareact.com/gzs"
-                    }} />
+                    }} /> */}
+                <Text style={tw`text-2xl font-semibold pb-3`}>easy scooter</Text>
 
                 <GooglePlacesAutocomplete
                     placeholder='Where are you ?'

@@ -18,7 +18,7 @@ const Scooters = () => {
     return (
         <FlatList
             data={scooters}
-            keyExtractor={(item) => item.id}
+            keyExtractor={(item, index) => index.toString()}
             ItemSeparatorComponent={() => (
                 <View style={[tw`bg-gray-200`, { height: 0.5 }]} />
             )
