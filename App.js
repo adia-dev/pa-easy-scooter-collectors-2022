@@ -16,7 +16,7 @@ import MapScreen from "./screens/MapScreen";
 export default function App() {
   const Stack = createNativeStackNavigator();
 
-  const [loggedIn, setLoggedIn] = useState(false)
+  const [loggedIn, setLoggedIn] = useState(true)
 
 
   return (

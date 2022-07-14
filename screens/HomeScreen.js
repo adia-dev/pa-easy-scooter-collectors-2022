@@ -1,16 +1,45 @@
 import { REACT_APP_GOOGLE_MAPS_API_KEY } from "@env";
-import React from 'react';
+import axios from "axios";
+import React, { useEffect } from 'react';
 import { Image, SafeAreaView, StyleSheet, View } from 'react-native';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import { useDispatch } from "react-redux";
 import tw from 'tailwind-react-native-classnames';
 import NavFavorites from "../components/NavFavorites";
 import NavOptions from '../components/NavOptions';
-import { setDestination, setOrigin } from "../slices/navSlice";
+import { setDestination, setOrigin, setPickupPoints, setScooters } from "../slices/navSlice";
+
+const TEMP_BASE_URL = "http://localhost:5500/api/v2/"
 
 const HomeScreen = () => {
 
     const dispatch = useDispatch();
+
+    useEffect(() => {
+
+
+        const fetchData = async () => {
+            const [pickupPoints, scooters] = await Promise.all([getPickupPoints(), getScooters()])
+
+            console.log(pickupPoints.data)
+            console.log(scooters.data);
+
+            dispatch(setScooters(scooters.data))
+            dispatch(setPickupPoints(pickupPoints.data))
+        }
+
+        fetchData()
+
+    }, [])
+
+
+    const getPickupPoints = async () =>
+        await axios.get(TEMP_BASE_URL + "pickups");
+
+    const getScooters = async () =>
+        await axios.get(TEMP_BASE_URL + "scooters");
+
+
 
     const googlePlacesAutocompleteStyle = {
         container:

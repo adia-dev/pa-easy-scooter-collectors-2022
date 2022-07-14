@@ -4,16 +4,18 @@ import React from 'react';
 import { SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Icon } from "react-native-elements";
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import tw from 'tailwind-react-native-classnames';
-import { setDestination } from "../slices/navSlice";
-import NavFavorites from "./NavFavorites";
+import { selectShowPickupPoints, setDestination, setShowPickupPoints } from "../slices/navSlice";
+import PickupPoints from "./PickupPoints";
+import Scooters from "./Scooters";
 
 
 const NavigateCard = () => {
 
     const dispatch = useDispatch();
     const navigation = useNavigation();
+    const showPickupPoints = useSelector(selectShowPickupPoints)
 
 
 
@@ -36,7 +38,7 @@ const NavigateCard = () => {
                             description: data.description
                         }))
 
-                        navigation.navigate("RideOptionsCard")
+                        // navigation.navigate("RideOptionsCard")
 
                     }}
                     fetchDetails={true}
@@ -48,15 +50,21 @@ const NavigateCard = () => {
                     debounce={400}
                 />
             </View>
-            <NavFavorites />
+            {
+                showPickupPoints ?
+                    <PickupPoints />
+                    :
+                    <Scooters />
+
+            }
             <View style={tw`flex-row items-center justify-around`}>
-                <TouchableOpacity style={tw`bg-black rounded-full flex-row items-center px-2 py-1`} onPress={() => navigation.navigate('RideOptionsCard')}>
-                    <Icon name='car' type="ionicon" color='white' />
-                    <Text style={tw`ml-2 text-white`}>Rides</Text>
+                <TouchableOpacity style={tw`${showPickupPoints && "bg-black"} rounded-full flex-row items-center px-2 py-1`} onPress={() => dispatch(setShowPickupPoints(true))}>
+                    <Icon name='location-outline' type="ionicon" color={showPickupPoints ? "white" : "black"} />
+                    <Text style={tw`ml-2 ${showPickupPoints ? "text-white" : "text-black"}`}>Pickups Points</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={tw` rounded-full flex-row items-center px-2 py-1`} onPress={() => navigation.navigate('EatsScreen')}>
-                    <Icon name='fast-food-outline' type="ionicon" color='black' />
-                    <Text style={tw`ml-2`}>Eats</Text>
+                <TouchableOpacity style={tw`${!showPickupPoints && "bg-black"} rounded-full flex-row items-center px-2 py-1`} onPress={() => dispatch(setShowPickupPoints(false))}>
+                    <Icon name='car' type="ionicon" color={!showPickupPoints ? "white" : "black"} />
+                    <Text style={tw`ml-2 ${!showPickupPoints ? "text-white" : "text-black"}`}>Scooters</Text>
                 </TouchableOpacity>
             </View>
         </SafeAreaView>
