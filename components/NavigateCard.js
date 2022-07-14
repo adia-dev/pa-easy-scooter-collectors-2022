@@ -6,12 +6,15 @@ import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplet
 import { useDispatch } from "react-redux";
 import tw from 'tailwind-react-native-classnames';
 import { setDestination } from "../slices/navSlice";
+import NavFavorites from "./NavFavorites";
 
 
 const NavigateCard = () => {
 
     const dispatch = useDispatch();
     const navigation = useNavigation();
+
+
 
     return (
         <SafeAreaView style={tw`flex-1 bg-white`}>
@@ -24,6 +27,9 @@ const NavigateCard = () => {
                     minLength={2}
                     returnKeyType={"search"}
                     onPress={(data, details = null) => {
+
+                        console.log(details.geometry.location)
+
                         dispatch(setDestination({
                             location: details.geometry.location,
                             description: data.description
@@ -41,6 +47,7 @@ const NavigateCard = () => {
                     debounce={400}
                 />
             </View>
+            <NavFavorites />
         </SafeAreaView>
     )
 }
